@@ -14,3 +14,5 @@ function resettingBoard()
    done
 }
 resettingBoard
+playerOne=0
+playerTwo=x
