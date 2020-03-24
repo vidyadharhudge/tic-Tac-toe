@@ -1,2 +1,16 @@
-#!/bin/bash -x
-echo "welcome to tic-Tac-toe game"
+#!/bin/bash -x 
+echo "Welcome To Tic-Tac-Toe Game"
+declare -A  board
+ROW=3
+COLUMN=3
+function resettingBoard()
+{
+   for (( i=1; i<=$ROW; i++ ))
+   do 
+       for (( j=1; j<=$COLUMN; j++ ))
+       do
+           board[$i,$j]=" "
+       done
+   done
+}
+resettingBoard
