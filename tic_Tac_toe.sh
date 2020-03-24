@@ -14,5 +14,16 @@ function resettingBoard()
    done
 }
 resettingBoard
-playerOne=0
-playerTwo=x
+
+function Toss()
+{
+   Toss=$((RANDOM%2))
+   if [[ $Toss -eq 0 ]]
+   then
+         playerOne=x
+   else
+         playerTwo=0
+   fi
+}
+Toss
+
