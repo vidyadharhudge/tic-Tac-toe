@@ -1,4 +1,4 @@
-#!/bin/bash -x 
+#!/bin/bash  
 echo "Welcome To Tic-Tac-Toe Game"
 declare -A  board
 ROW=3
@@ -24,6 +24,22 @@ function Toss()
    else
          playerTwo=0
    fi
+
 }
 Toss
 
+function displayBoard()
+{
+   for (( i=1; i<=$ROW; i++ ))
+   do
+            echo "---+---+---+"
+       for (( j=1; j<=$COLUMN; j++ ))
+       do
+            echo -e " ${board[$i,$j]} |\c "
+       done
+            echo
+   done
+            echo "---+---+---+"     
+
+}
+displayBoard
