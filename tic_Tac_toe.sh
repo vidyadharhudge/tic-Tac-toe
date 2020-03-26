@@ -17,7 +17,6 @@ function resettingBoard()
        done
     done
 }
-resettingBoard
 
 function Toss_And_Assigne_Symbol()
 {
@@ -31,7 +30,6 @@ function Toss_And_Assigne_Symbol()
      echo $gamePlayer
 
 }
-Toss_And_Assigne_Symbol
 
 function displayBoard()
 {
@@ -46,7 +44,6 @@ function displayBoard()
      done
             echo "---+---+---+"     
 }
-displayBoard
 
 function checkwin()
 {
@@ -136,7 +133,7 @@ function checkEmpty()
       fi
 }
 
-function Check_For_Available_Corner()
+function Check_For_Available_Corner_And_Center()
 {
     if [ $flag -eq 1 ]
     then
@@ -158,9 +155,16 @@ function Check_For_Available_Corner()
            fi
        done
    fi
-
+   if [ $flag -eq 1 ]
+   then
+        board[1,1]=$gamePlayer
+        flag=0
+   fi
 }
 
+resettingBoard
+Toss_And_Assigne_Symbol
+displayBoard
 while [ $countOfmoves -lt  $totalNumberofMoves ]
 do
       if [[ $gamePlayer == x ]]
@@ -173,7 +177,7 @@ do
           anotherPlayer="x"
           Check_I_Can_Win $gamePlayer
           Check_I_Can_Win $anotherPlayer
-          Check_For_Available_Corner $gamePlayer
+          Check_For_Available_Corner_And_Center $gamePlayer
           if [ $flag -eq 1 ]
           then 
                Poistion=$((RANDOM%9))
