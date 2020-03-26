@@ -1,6 +1,6 @@
-#!/bin/bash -x  
+#!/bin/bash   
 echo "Welcome To Tic-Tac-Toe Game"
-declare -A  board
+declare -A board
 ROW=3
 COLUMN=3
 countOfmoves=0
@@ -48,6 +48,32 @@ function displayBoard()
 }
 displayBoard
 
+function checkwin()
+{
+  win=0
+  for (( i=0; i<$ROW; i++ ))
+  do
+         if [[ ${board[$i,$((i-i))]} == $1 && ${board[$i,$((i+1-i))]} == $1 && ${board[$i,$((i+2-i))]} == $1 ]]
+         then
+                  win=1
+
+         elif [[ ${board[$((i-i)),$i]} == $1 && ${board[$((i+1-i)),$i]} == $1 && ${board[$((i+2-i)),$i]} == $1 ]]
+         then
+                  win=1
+
+
+         elif [[ $i -eq 0 && ${board[$i,$i]} == $1 && ${board[$((i+1)),$((i+1))]} == $1 && ${board[$((i+1)),$((i+1))]} == $1 ]]
+         then
+                  win=1
+
+         elif [[ ${board[0,2]} == $1 && ${board[1,1]} == $1 && ${board[2,0]} == $1 ]]
+         then
+                  win=1
+         fi
+         done
+
+}
+
 function changePlayer()
 {
      if [[ $gamePlayer == x ]]
@@ -58,19 +84,6 @@ function changePlayer()
      fi
 }
 
-function checkEmpty()
-{
-     if [[ ${board[$2,$3]} == " " ]]
-     then
-          board[$2,$3]=$1
-          displayBoard
-          countOfmoves=$((countOfmoves+1))
-          changePlayer $1
-          checkwin $1
-     else
-          echo "this poistion is not empty"
-     fi
-}
 
 function Check_I_Can_Win()
 {
@@ -106,31 +119,46 @@ function Check_I_Can_Win()
        then
              break
        fi
-   done
+       done
 }
 
-function checkwin()
+function checkEmpty()
 {
-     win=0
-     for (( i=0; i<$ROW; i++ ))
-     do
-         if [[ ${board[$i,$((i-i))]} == $1 && ${board[$i,$((i+1-i))]} == $1 && ${board[$i,$((i+2-i))]} == $1 ]]     
-         then
-                  win=1
-    
-         elif [[ ${board[$((i-i)),$i]} == $1 && ${board[$((i+1-i)),$i]} == $1 && ${board[$((i+2-i)),$i]} == $1 ]]
-         then
-                  win=1
-        
-         elif [[ $i -eq 0 && ${board[$i,$i]} == $1 && ${board[$((i+1)),$((i+1))]} == $1 && ${board[$((i+1)),$((i+1))]} == $1 ]]
-         then
-                  win=1
-    
-         elif [[ ${board[0,2]} == $1 && ${board[1,1]} == $1 && ${board[2,0]} == $1 ]]       
-         then
-                  win=1
-         fi
-         done
+      if [[ ${board[$2,$3]} == " " ]]
+      then
+             board[$2,$3]=$1
+             displayBoard
+             countOfmoves=$((countOfmoves+1))
+             changePlayer $1
+             checkwin $1
+      else
+             echo "the poistion is not empty"
+      fi
+}
+
+function Check_For_Available_Corner()
+{
+    if [ $flag -eq 1 ]
+    then
+         for (( i=0; i<$ROW; $((i+2)) ))
+         do
+            for (( j=0; j<$COLUMN; $((j+2)) ))
+            do
+                  if [[ ${board[$i,$j]} == " " ]]
+                  then
+                     board[$i,$j]=$gamePlayer
+                     displayBoard
+                     flag=0
+                     break
+                  fi
+           done
+           if [ $flag -eq 0 ]
+           then
+                break
+           fi
+       done
+   fi
+
 }
 
 while [ $countOfmoves -lt  $totalNumberofMoves ]
@@ -145,6 +173,7 @@ do
           anotherPlayer="x"
           Check_I_Can_Win $gamePlayer
           Check_I_Can_Win $anotherPlayer
+          Check_For_Available_Corner $gamePlayer
           if [ $flag -eq 1 ]
           then 
                Poistion=$((RANDOM%9))
