@@ -1,4 +1,4 @@
-#!/bin/bash -x 
+#!/bin/bash  
 echo "Welcome To Tic_Tac_Toe"
 declare -A board
 ROW=3
@@ -6,7 +6,8 @@ COLUMN=3
 countOfmoves=0
 computerPlayer="o"
 totalNumberOfMoves=$((ROW*COLUMN))
-function resettingBoard(){
+function resettingBoard()
+{
 	for (( i=0; i<$ROW; i++ ))
 	do
 		for (( j=0; j<$COLUMN; j++ ))
@@ -16,18 +17,20 @@ function resettingBoard(){
 	done
 }
 
-function Toss_And_Assign_Symbol(){
+function Toss_And_Assign_Symbol()
+{
 	Toss=$((RANDOM%2))
 	case $Toss in
-		1)
+	1)
 			gamePlayer=x ;;
-		0)
+	0)
 			gamePlayer=$computerPlayer ;;
 	esac
 	echo $gamePlayer
 }
 
-function displayBoard(){
+function displayBoard()
+{
 	for (( i=0; i<$ROW; i++ ))
 	do
 			echo "---+---+---+"
@@ -35,12 +38,14 @@ function displayBoard(){
 		do
 			printf " ${board[$i,$j]} |"
    	done
-		echo
+		   echo
 	done
-	echo "---+---+---+"
+	      echo "---+---+---+"
+
 }
 
-function checkwin(){
+function checkwin()
+{
    win=0
    for (( i=0; i<$ROW; i++ ))
    do
@@ -61,7 +66,8 @@ function checkwin(){
 }
 
 
-function changePlayer(){
+function changePlayer() 
+{
 	if [[ $gamePlayer == x ]]
 	then
 		gamePlayer=o
@@ -70,7 +76,8 @@ function changePlayer(){
 	fi
 }
 
-function checkEmpty(){
+function checkEmpty()
+{
 	if [[ ${board[$2,$3]} == " " ]]
 	then
 		board[$2,$3]=$1
@@ -83,7 +90,8 @@ function checkEmpty(){
 	fi
 }
 
-function Check_For_Avalibale_Corner_And_Center(){
+function Check_For_Avalibale_Corner_And_Center()
+{
 
 	if [ $flag -eq 1 ]
 	then
@@ -101,21 +109,20 @@ function Check_For_Avalibale_Corner_And_Center(){
 			done
 			if [ $flag -eq 0 ]
 			then
-				break
+				  break
 			fi
-		done
-	fi
-
-	if [ $flag -eq 1 ]
-	then
+	  done
+  fi
+  if [ $flag -eq 1 ]
+  then
 		board[1,1]=$gamePlayer
 		displayBoard
 		flag=0
-	fi
-	if [ $flag -eq 1 ]
-	then
-	for (( row=0;row<$ROW;row++ ))
-	do
+  fi
+  if [ $flag -eq 1 ]
+  then
+	 for (( row=0;row<$ROW;row++ ))
+	 do
 		for (( column=0;column<$COLUMN;column++ ))
 		do
 			if [[ ${board[$row,$column]} == " " ]]
@@ -125,15 +132,16 @@ function Check_For_Avalibale_Corner_And_Center(){
 				flag=0
 				break
 			fi
-		done
-	if [ $flag -eq 0 ]
-	then
-		break
-	fi
-	done
-	fi
+	  done
+     if [ $flag -eq 0 ]
+	  then
+		     break
+	  fi
+   done
+  fi
 }
-function Check_I_Can_Win(){
+function Check_I_Can_Win()
+{
 	flag=1
    for (( r=0; r<$ROW; r++ ))
    do
@@ -141,24 +149,24 @@ function Check_I_Can_Win(){
       do
          if [[ ${board[$r,$c]} == " " ]]
          then
-            board[$r,$c]=$1
-            checkwin $1
+               board[$r,$c]=$1
+               checkwin $1
             if [ $win -eq 0 ]
             then
                 board[$r,$c]=" "
-            elif [[ $win -eq 1 && ${board[$r,$c]} == $gamePlayer ]]
-            then
-               displayBoard
-               echo "$gamePlayer win !"
-            exit
-            elif [ $win -eq 1 ]
-            then
-               board[$r,$c]=$gamePlayer
-               displayBoard
-               win=0
-               flag=0
-               ((countOfmoves++))
-               break
+             elif [[ $win -eq 1 && ${board[$r,$c]} == $gamePlayer ]]
+             then
+                displayBoard
+                echo "$gamePlayer win !"
+             exit
+             elif [ $win -eq 1 ]
+             then
+                board[$r,$c]=$gamePlayer
+                displayBoard
+                win=0
+                flag=0
+                ((countOfmoves++))
+                break
             fi
          fi
       done 
@@ -169,6 +177,7 @@ function Check_I_Can_Win(){
 resettingBoard
 Toss_And_Assign_Symbol
 displayBoard
+
 while [ $countOfmoves -lt $totalNumberOfMoves ]
 do
 	if [[ $gamePlayer == x ]]
@@ -177,18 +186,18 @@ do
 		read -p "enter column position" columnPosition
 		checkEmpty $gamePlayer $rowPosition $columnPosition
 	 else
-		AnotherPlayer="x"
-		Check_I_Can_Win $gamePlayer
-		Check_I_Can_Win $AnotherPlayer
-		Check_For_Avalibale_Corner_And_Center $gamePlayer
+		   AnotherPlayer="x"
+		   Check_I_Can_Win $gamePlayer
+		   Check_I_Can_Win $AnotherPlayer
+		   Check_For_Avalibale_Corner_And_Center $gamePlayer
 		if [ $flag -eq 1 ]
 		then
-			position=$((RANDOM%9))
-			rowPosition=$((position/3))
-			columnPosition=$((position%3))
-			checkEmpty $gamePlayer $rowPosition $columnPosition
+		  	 position=$((RANDOM%9))
+			 rowPosition=$((position/3))
+			 columnPosition=$((position%3))
+			 checkEmpty $gamePlayer $rowPosition $columnPosition
 		else
-			changePlayer $AnotherPlayer
+			 changePlayer $AnotherPlayer
 		fi
 	 fi
 if [[ $win == 1 ]]
