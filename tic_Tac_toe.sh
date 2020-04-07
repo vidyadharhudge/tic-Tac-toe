@@ -1,4 +1,4 @@
-#!/bin/bash  
+#!/bin/bash -x
 echo "Welcome To Tic_Tac_Toe"
 declare -A board
 ROW=3
@@ -6,6 +6,7 @@ COLUMN=3
 countOfmoves=0
 computerPlayer="o"
 totalNumberOfMoves=$((ROW*COLUMN))
+#function for resetting the board
 function resettingBoard()
 {
 	for (( i=0; i<$ROW; i++ ))
@@ -16,7 +17,7 @@ function resettingBoard()
 		done
 	done
 }
-
+#function for toss and assign the symbol
 function Toss_And_Assign_Symbol()
 {
 	Toss=$((RANDOM%2))
@@ -28,7 +29,7 @@ function Toss_And_Assign_Symbol()
 	esac
 	echo $gamePlayer
 }
-
+#function for display the game board
 function displayBoard()
 {
 	for (( i=0; i<$ROW; i++ ))
@@ -43,7 +44,7 @@ function displayBoard()
 	      echo "---+---+---+"
 
 }
-
+#function for check who is win
 function checkwin()
 {
    win=0
@@ -64,8 +65,7 @@ function checkwin()
 	   fi
 	done
 }
-
-
+#function for changing the player 
 function changePlayer() 
 {
 	if [[ $gamePlayer == x ]]
@@ -75,7 +75,7 @@ function changePlayer()
 		gamePlayer=x
 	fi
 }
-
+#function for check poistion is full or not
 function checkEmpty()
 {
 	if [[ ${board[$2,$3]} == " " ]]
@@ -89,7 +89,7 @@ function checkEmpty()
 		echo "The Poistion is not empty"
 	fi
 }
-
+#function for Avalibality of corner and center
 function Check_For_Avalibale_Corner_And_Center()
 {
 
@@ -140,6 +140,7 @@ function Check_For_Avalibale_Corner_And_Center()
    done
   fi
 }
+#function for check i can win 
 function Check_I_Can_Win()
 {
 	flag=1
@@ -185,21 +186,21 @@ do
 		read -p "enter row position" rowPosition
 		read -p "enter column position" columnPosition
 		checkEmpty $gamePlayer $rowPosition $columnPosition
-	 else
-		   AnotherPlayer="x"
-		   Check_I_Can_Win $gamePlayer
-		   Check_I_Can_Win $AnotherPlayer
-		   Check_For_Avalibale_Corner_And_Center $gamePlayer
-		if [ $flag -eq 1 ]
-		then
-		  	 position=$((RANDOM%9))
-			 rowPosition=$((position/3))
-			 columnPosition=$((position%3))
-			 checkEmpty $gamePlayer $rowPosition $columnPosition
-		else
-			 changePlayer $AnotherPlayer
-		fi
-	 fi
+	else
+		 AnotherPlayer="x"
+		 Check_I_Can_Win $gamePlayer
+		 heck_I_Can_Win $AnotherPlayer
+		 Check_For_Avalibale_Corner_And_Center $gamePlayer
+	    if [ $flag -eq 1 ]
+	    then
+		     position=$((RANDOM%9))
+		     rowPosition=$((position/3))
+		     columnPosition=$((position%3))
+		     checkEmpty $gamePlayer $rowPosition $columnPosition
+	    else
+		     changePlayer $AnotherPlayer
+	    fi
+	fi
 if [[ $win == 1 ]]
 then
 	break
